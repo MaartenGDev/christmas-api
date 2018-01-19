@@ -13,11 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['middleware' => 'api', 'as' => 'api.', 'namespace' => 'Api\\'], function (){
-   Route::resource('gifts', 'GiftController');
+Route::group(['as' => 'api.', 'namespace' => 'Api\\'], function () {
+    Route::resource('gifts', 'GiftController');
 
-    Route::post('login', 'AuthController@login')->name('login');
-    Route::post('logout', 'AuthController@logout')->name('logout');
-    Route::post('refresh', 'AuthController@refresh')->name('refresh');
-    Route::post('me', 'AuthController@me')->name('me');
+    Route::post('sessions/', 'AuthController@login')->name('auth.login');
+    Route::delete('sessions/', 'AuthController@logout')->name('auth.logout');
+    Route::patch('sessions/refresh', 'AuthController@refresh')->name('auth.refresh');
+    Route::post('me', 'AuthController@me')->name('auth.me');
 });

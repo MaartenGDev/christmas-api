@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['as' => 'api.', 'namespace' => 'Api\\'], function () {
+Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\\'], function () {
     Route::resource('gifts', 'GiftController');
 
     Route::post('sessions/', 'AuthController@login')->name('auth.login');

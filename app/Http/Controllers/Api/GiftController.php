@@ -15,8 +15,8 @@ class GiftController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index(){
-        return Gift::all();
+    public function index(Request $request){
+        return $request->user()->gifts()->get();
     }
 
     public function store(StoreGiftRequest $request){

@@ -300,4 +300,5 @@ return [
 
     ],
 
+    'identifier' => 'user'
 ];

@@ -2,31 +2,33 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\ApiController;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-class AuthController extends Controller
+class AuthController extends ApiController
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'logout']]);
     }
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('name', 'password');
 
         if ($token = $this->guard()->attempt($credentials)) {
-            return $this->respondWithToken($token);
+            return $this->respondWithSessionDetails($token);
         }
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return $this->respondUnauthorized();
     }
 
     public function me()
     {
-        return response()->json($this->guard()->user());
+        return $this->respondWithSessionDetails($this->guard()->user());
     }
 
     /**
@@ -36,9 +38,11 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        $this->guard()->logout();
+        if($this->guard()->check()){
+            $this->guard()->logout();
+        }
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return $this->respondOk(['message' => 'Successfully logged out']);
     }
 
     /**
@@ -48,15 +52,18 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken($this->guard()->refresh());
+        return $this->respondWithSessionDetails($this->guard()->refresh());
     }
 
-    protected function respondWithToken($token)
+    protected function respondWithSessionDetails($token)
     {
-        return response()->json([
+        return $this->respondOk([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60
+            'expires_in' => $this->guard()->factory()->getTTL() * 60,
+            'user' => [
+                'name' => $this->guard()->user()->name
+            ]
         ]);
     }
 

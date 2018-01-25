@@ -6,16 +6,18 @@ pipeline {
         CHRISTMAS_API_DB_NAME = credentials('CHRISTMAS_API_DB_NAME')
         CHRISTMAS_API_DB_USER = credentials('CHRISTMAS_API_DB_USER')
         CHRISTMAS_API_DB_PASSWORD = credentials('CHRISTMAS_API_DB_PASSWORD')
+        CHRISTMAS_API_SEED_USERS = credentials('CHRISTMAS_API_SEED_USERS')
         RELEASE_DOMAIN = 'christmas-api.maartendev.me'
         DEPLOY_PATH = "/var/www/${RELEASE_DOMAIN}"
     }
     stages {
-      stage('Configure enviroment variables for application'){
+      stage('Configure environment variables for application'){
             steps {
                 sh "cp .env.example .env"
                 sh 'sed -i -e "s/DB_DATABASE=homestead/DB_DATABASE=${CHRISTMAS_API_DB_NAME}/g" .env'
                 sh 'sed -i -e "s/DB_USERNAME=homestead/DB_USERNAME=${CHRISTMAS_API_DB_USER}/g" .env'
                 sh 'sed -i -e "s/DB_PASSWORD=secret/DB_PASSWORD=\"${CHRISTMAS_API_DB_PASSWORD}\"/g" .env'
+                sh 'sed -i -e "s/DEFAULT_USERS=/DEFAULT_USERS=\"${CHRISTMAS_API_SEED_USERS}\"/g" .env'
                 sh "sudo chown -R www-data:${PROD_USER} storage/"
             }
         }

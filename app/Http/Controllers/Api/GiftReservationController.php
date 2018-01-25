@@ -28,7 +28,7 @@ class GiftReservationController extends ApiController
         $gift->reserved_by =  $request->reserved_by === -1 ? null : $request->user()->id;
         $gift->save();
 
-        $gift->user = $request->user();
+        $gift->user = $gift->user()->first();
 
         return $this->respondOk($gift);
     }

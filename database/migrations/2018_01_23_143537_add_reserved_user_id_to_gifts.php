@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -27,7 +28,9 @@ class AddReservedUserIdToGifts extends Migration
     public function down()
     {
         Schema::table('gifts', function (Blueprint $table) {
+            DB::statement('SET FOREIGN_KEY_CHECKS = 0');
             $table->dropColumn('reserved_by');
+            DB::statement('SET FOREIGN_KEY_CHECKS = 1');
         });
     }
 }

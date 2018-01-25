@@ -32,6 +32,11 @@ pipeline {
                 sh 'php artisan config:clear'
             }
         }
+        stage('Configure application secrets'){
+            steps {
+                sh 'php artisan jwt:secret -f'
+            }
+        }
         stage('Run migrations'){
             steps {
                 sh 'php artisan migrate:refresh --seed --force'

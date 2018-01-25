@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Gift;
+use App\Policies\GiftPolicy;
+use App\Policies\GiftReservationPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -13,7 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        Gift::class => GiftPolicy::class,
+        Gift::class => GiftReservationPolicy::class
     ];
 
     /**
@@ -24,7 +28,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
     }
 }

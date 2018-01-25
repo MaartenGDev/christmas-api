@@ -61,9 +61,7 @@ class AuthController extends ApiController
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => $this->guard()->factory()->getTTL() * 60,
-            'user' => [
-                'name' => $this->guard()->user()->name
-            ]
+            'user' => $this->guard()->user()
         ]);
     }
 

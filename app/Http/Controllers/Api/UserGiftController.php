@@ -23,7 +23,9 @@ class UserGiftController extends ApiController
 
     public function store(StoreGiftRequest $request)
     {
-        $gift = $request->user()->gifts()->create($request->all());
+        $gift = $request->user()->gifts()
+            ->create($request->except(['reserved_by']));
+
         $gift->user = $request->user()->first();
 
         return $this->respondOk($gift);

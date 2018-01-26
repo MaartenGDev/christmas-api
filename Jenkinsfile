@@ -20,7 +20,9 @@ pipeline {
                 sh 'sed -i -e "s/DB_PASSWORD=secret/DB_PASSWORD=\"${CHRISTMAS_API_DB_PASSWORD}\"/g" .env'
                 sh 'sed -i -e "s/DEFAULT_USERS=/DEFAULT_USERS=\"${CHRISTMAS_API_SEED_USERS}\"/g" .env'
                 sh 'sed -i -e "s/SENTRY_DSN=/SENTRY_DSN=\"${CHRISTMAS_API_SENTRY_DSN}\"/g" .env'
+                sh 'ls -la'
                 sh "sudo chown -R www-data:${PROD_USER} storage/"
+                sh 'ls -la'
             }
         }
         stage('Install composer dependencies'){

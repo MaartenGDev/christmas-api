@@ -28,7 +28,7 @@ class AddReservedUserIdToGifts extends Migration
     public function down()
     {
         Schema::table('gifts', function (Blueprint $table) {
-            $table->dropForeign('reserved_by');
+            $table->dropForeign('gifts_reserved_by_foreign');
             $table->dropColumn('reserved_by');
         });
     }

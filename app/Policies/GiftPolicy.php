@@ -10,25 +10,19 @@ class GiftPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can update the gift.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Gift  $gift
-     * @return mixed
-     */
     public function update(User $user, Gift $gift)
     {
         return $user->id === $gift->user_id;
     }
 
-    /**
-     * Determine whether the user can delete the gift.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Gift  $gift
-     * @return mixed
-     */
+    public function updateReservation(User $user, Gift $gift)
+    {
+        // The owner of a gift can't reserve his own gift
+        if ($gift->user_id === $user->id) return false;
+
+        return $gift->reserved_by === null || $gift->reserved_by === $user->id;
+    }
+
     public function delete(User $user, Gift $gift)
     {
         return $user->id === $gift->user_id;

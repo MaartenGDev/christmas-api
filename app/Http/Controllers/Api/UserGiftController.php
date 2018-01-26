@@ -18,7 +18,7 @@ class UserGiftController extends ApiController
 
     public function index(Request $request)
     {
-        return $this->respondOk($request->user()->gifts()->with('user')->get());
+        return $this->respondOk($request->user()->gifts()->with('user')->orderBy('updated_at', 'desc')->get());
     }
 
     public function store(StoreGiftRequest $request)

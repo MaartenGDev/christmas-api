@@ -16,7 +16,7 @@ class GiftReservationController extends ApiController
         $this->middleware('auth:api');
     }
 
-    public function index(Request $request)
+    public function index()
     {
         return $this->respondOk(Gift::with('user')->get());
     }

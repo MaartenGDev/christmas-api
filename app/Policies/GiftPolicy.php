@@ -23,7 +23,7 @@ class GiftPolicy
         return $gift->reserved_by === null || $gift->reserved_by === $user->id;
     }
 
-    public function delete(User $user, Gift $gift)
+    public function destroy(User $user, Gift $gift)
     {
         return $user->id === $gift->user_id;
     }

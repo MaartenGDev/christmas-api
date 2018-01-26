@@ -23,7 +23,10 @@ class UserGiftController extends ApiController
 
     public function store(StoreGiftRequest $request)
     {
-        return $this->respondOk($request->user()->gifts()->create($request->all()));
+        $gift = $request->user()->gifts()->create($request->all());
+        $gift->user = $request->user()->first();
+
+        return $this->respondOk();
     }
 
     public function update(StoreGiftRequest $request, Gift $gift)

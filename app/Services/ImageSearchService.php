@@ -49,19 +49,18 @@ class ImageSearchService
 
         $imageBlob = file_get_contents($imageDetails->links->download);
 
-        $filename = !is_null($previousFilename)
-            ? $this->getFilenameWithStoragePrefix($previousFilename)
-            : 'gift-images/' . Uuid::uuid4()->toString() . '.jpg';
+        $this->deleteIfExists($previousFilename);
+
+        $filename = 'gift-images/' . Uuid::uuid4()->toString() . '.jpg';
 
         Storage::disk('public')->put($filename, $imageBlob);
 
         return 'storage/' . $filename;
     }
 
-    private function getFilenameWithStoragePrefix($filename){
-        $prefix = 'storage/';
-        if(strpos($filename, $prefix) !== 0) return $filename;
+    private function deleteIfExists($filename){
+        if(is_null($filename)) return;
 
-        return substr($filename, strlen($prefix));
+        Storage::disk('public')->delete($filename);
     }
 }

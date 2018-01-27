@@ -77,5 +77,12 @@ pipeline {
                 sh "cp ${WORKSPACE}/.env ${DEPLOY_PATH}/.env"
             }
         }
+
+       stage('Configure storage settings'){
+                steps {
+                    sh "cd ${DEPLOY_PATH}/"
+                    sh 'php artisan storage:link'
+                }
+            }
     }
 }

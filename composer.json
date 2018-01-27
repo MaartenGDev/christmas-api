@@ -8,9 +8,12 @@
         "php": ">=7.0.0",
         "barryvdh/laravel-cors": "^0.11.0",
         "fideloper/proxy": "~3.3",
+        "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
+        "ramsey/uuid": "^3.7",
         "sentry/sentry-laravel": "^0.8.0",
+        "stichoza/google-translate-php": "^3.2",
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {

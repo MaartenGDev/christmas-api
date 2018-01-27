@@ -61,6 +61,15 @@ class ImageSearchService
     private function deleteIfExists($filename){
         if(is_null($filename)) return;
 
-        Storage::disk('public')->delete($filename);
+        $filenameWithoutStoragePrefix = $this->removeStoragePrefix($filename);
+
+        Storage::disk('public')->delete($filenameWithoutStoragePrefix);
+    }
+
+    private function removeStoragePrefix($filename){
+        $storagePrefix = 'storage/';
+        if(substr($filename, 0, strlen($storagePrefix)) !== $storagePrefix) return $filename;
+
+        return substr($filename, strlen($storagePrefix));
     }
 }

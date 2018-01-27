@@ -50,6 +50,9 @@ class UserGiftController extends ApiController
     {
        $this->authorize('update', $gift);
 
+       Log::info($gift);
+       Log::info($gift->image);
+
         $fields = array_merge($request->except(['reserved_by']), [
             'image' => $this->imageSearchService->searchAndPersist($request->title, $gift->image)
         ]);

@@ -23,7 +23,6 @@ pipeline {
                 sh 'sed -i -e "s/DEFAULT_USERS=/DEFAULT_USERS=\"${CHRISTMAS_API_SEED_USERS}\"/g" .env'
                 sh 'sed -i -e "s/SENTRY_DSN=/SENTRY_DSN=\"${CHRISTMAS_API_SENTRY_DSN}\"/g" .env'
                 sh 'sed -i -e "s/UNSPLASH_TOKEN=/UNSPLASH_TOKEN=\"${CHRISTMAS_API_UNSPLASH_TOKEN}\"/g" .env'
-                sh "sudo chown -R www-data:${PROD_USER} storage/"
             }
         }
         stage('Install composer dependencies'){
@@ -63,6 +62,13 @@ pipeline {
             steps {
                 sh "rm -rf ${DEPLOY_PATH}/*"
                 sh "cp -rp ${WORKSPACE}/* ${DEPLOY_PATH}/"
+            }
+        }
+
+        stage('Configure folder permissions'){
+            steps {
+                sh "sudo chown -R www-data:${PROD_USER} ${DEPLOY_PATH}/storage/"
+                sh "cp ${WORKSPACE}/.env ${DEPLOY_PATH}/.env"
             }
         }
     }

@@ -16,13 +16,19 @@ pipeline {
       stage('Configure environment variables for application'){
             steps {
                 sh "cp .env.example .env"
-                sh 'sed -i -e "s/APP_ENV=local/APP_ENV=production/g" .env'
+                // Database Credentials
                 sh 'sed -i -e "s/DB_DATABASE=homestead/DB_DATABASE=${CHRISTMAS_API_DB_NAME}/g" .env'
                 sh 'sed -i -e "s/DB_USERNAME=homestead/DB_USERNAME=${CHRISTMAS_API_DB_USER}/g" .env'
                 sh 'sed -i -e "s/DB_PASSWORD=secret/DB_PASSWORD=\"${CHRISTMAS_API_DB_PASSWORD}\"/g" .env'
                 sh 'sed -i -e "s/DEFAULT_USERS=/DEFAULT_USERS=\"${CHRISTMAS_API_SEED_USERS}\"/g" .env'
+
+                // 3rd party credentials
                 sh 'sed -i -e "s/SENTRY_DSN=/SENTRY_DSN=\"${CHRISTMAS_API_SENTRY_DSN}\"/g" .env'
                 sh 'sed -i -e "s/UNSPLASH_TOKEN=/UNSPLASH_TOKEN=\"${CHRISTMAS_API_UNSPLASH_TOKEN}\"/g" .env'
+
+                // Logging and security
+                sh 'sed -i -e "s/APP_ENV=local/APP_ENV=production/g" .env'
+                sh 'sed -i -e "s/APP_DEBUG=true/APP_DEBUG=false/g" .env'
             }
         }
         stage('Install composer dependencies'){

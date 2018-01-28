@@ -38,7 +38,7 @@ class UserGiftController extends ApiController
     {
         $user = $request->user();
 
-        $gift = $user->create($request->except(['reserved_by']);
+        $gift = $user->create($request->except(['reserved_by']));
         $gift->user = $user;
 
         AddImageToGift::dispatch($gift);

@@ -50,13 +50,16 @@ class UserGiftController extends ApiController
     {
         $this->authorize('update', $gift);
 
-        $gift->update($request->except(['reserved_by']));
-
         Log::info('old: ' . $gift->title . ' new:' . $request->title);
 
         if ($gift->title !== $request->title) {
             AddImageToGift::dispatch($gift);
         }
+
+        $gift->update($request->except(['reserved_by']));
+
+
+
 
         return $this->respondOk(new GiftResource($gift));
     }

@@ -19,7 +19,7 @@ class UserGiftController extends ApiController
     /**
      * @var ImageSearchService
      */
-    private $imageSearchService ;
+    private $imageSearchService;
 
     public function __construct(ImageSearchService $imageSearchService)
     {
@@ -48,11 +48,13 @@ class UserGiftController extends ApiController
 
     public function update(StoreGiftRequest $request, Gift $gift)
     {
-       $this->authorize('update', $gift);
+        $this->authorize('update', $gift);
 
         $gift->update($request->except(['reserved_by']));
 
-        if($gift->title !== $request->title){
+        Log::info('old: ' . $gift->title . ' new:' . $request->title);
+
+        if ($gift->title !== $request->title) {
             AddImageToGift::dispatch($gift);
         }
 

@@ -14,7 +14,7 @@ class ImageSearchServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(ImageSearchService::class, function ($app) {
-            return new ImageSearchService($app->make(Client::class), new TranslateService());
+            return new ImageSearchService($app->make(TranslateService::class));
         });
     }
 

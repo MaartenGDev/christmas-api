@@ -6,6 +6,7 @@ use App\Gift;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\StoreGiftRequest;
 use App\Http\Resources\GiftResource;
+use App\Jobs\AddImageToGift;
 use App\Services\ImageSearchService;
 use App\Services\TranslateService;
 use Illuminate\Http\Request;
@@ -35,13 +36,12 @@ class UserGiftController extends ApiController
 
     public function store(StoreGiftRequest $request)
     {
-        $fields = array_merge($request->except(['reserved_by']), [
-           'image' => $this->imageSearchService->searchAndPersist($request->title)
-        ]);
+        $user = $request->user();
 
-        $gift = $request->user()->gifts()->create($fields);
+        $gift = $user->create($request->except(['reserved_by']);
+        $gift->user = $user;
 
-        $gift->user = $request->user()->first();
+        AddImageToGift::dispatch($gift);
 
         return $this->respondOk(new GiftResource($gift));
     }
@@ -50,14 +50,9 @@ class UserGiftController extends ApiController
     {
        $this->authorize('update', $gift);
 
-       Log::info($gift);
-       Log::info($gift->image);
+        $gift->update($request->except(['reserved_by']));
 
-        $fields = array_merge($request->except(['reserved_by']), [
-            'image' => $this->imageSearchService->searchAndPersist($request->title, $gift->image)
-        ]);
-
-        $gift->update($fields);
+        AddImageToGift::dispatch($gift);
 
         return $this->respondOk(new GiftResource($gift));
     }

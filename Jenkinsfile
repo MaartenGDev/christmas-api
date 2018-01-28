@@ -29,6 +29,9 @@ pipeline {
                 // Logging and security
                 sh 'sed -i -e "s/APP_ENV=local/APP_ENV=production/g" .env'
                 sh 'sed -i -e "s/APP_DEBUG=true/APP_DEBUG=false/g" .env'
+
+                // Configure Queues
+                sh 'sed -i -e "s/QUEUE_DRIVER=sync/QUEUE_DRIVER=beanstalkd/g" .env'
             }
         }
         stage('Install composer dependencies'){

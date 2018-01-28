@@ -83,8 +83,7 @@ pipeline {
 
        stage('Configure storage settings'){
             steps {
-                sh "cd ${DEPLOY_PATH}/"
-                sh 'test -d "public/storage" && echo Already created || php artisan storage:link'
+                sh "test -d 'public/storage' && echo Already created || php  ${DEPLOY_PATH}/artisan storage:link"
             }
         }
     }

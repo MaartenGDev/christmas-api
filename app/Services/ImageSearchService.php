@@ -37,8 +37,7 @@ class ImageSearchService
         $endpoint = config('unsplash.endpoint') . '/search/photos?orientation=landscape&query=' . $englishText;
 
         $imagesSortedByLiked = collect(json_decode($this->httpClient->request('GET', $endpoint)
-            ->getBody())->results)
-            ->sortBy('likes');
+            ->getBody())->results);
 
         return $imagesSortedByLiked->first();
     }

@@ -52,7 +52,9 @@ class UserGiftController extends ApiController
 
         $gift->update($request->except(['reserved_by']));
 
-        AddImageToGift::dispatch($gift);
+        if($gift->title !== $request->title){
+            AddImageToGift::dispatch($gift);
+        }
 
         return $this->respondOk(new GiftResource($gift));
     }

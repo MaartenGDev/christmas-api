@@ -65,7 +65,7 @@ pipeline {
         stage('deploy'){
             steps {
                 sh "sudo rm -rf ${DEPLOY_PATH}/*"
-                sh "cp ${WORKSPACE}/* ${DEPLOY_PATH}/"
+                sh "cp -rp ${WORKSPACE}/* ${DEPLOY_PATH}/"
             }
         }
 

@@ -55,12 +55,7 @@ pipeline {
                 sh 'php artisan migrate --force'
              }
         }
-        stage('Warm up cache'){
-            steps {
-                sh 'php artisan config:cache'
-                sh 'php artisan route:cache'
-            }
-        }
+
         stage('Build assets'){
             steps {
                 sh 'npm install'
@@ -70,7 +65,7 @@ pipeline {
         stage('deploy'){
             steps {
                 sh "sudo rm -rf ${DEPLOY_PATH}/*"
-                sh "cp -rp ${WORKSPACE}/* ${DEPLOY_PATH}/"
+                sh "cp ${WORKSPACE}/* ${DEPLOY_PATH}/"
             }
         }
 
@@ -81,9 +76,16 @@ pipeline {
             }
         }
 
-       stage('Configure storage settings'){
+        stage('Configure storage settings'){
             steps {
                 sh "test -d '${DEPLOY_PATH}/public/storage' && echo Already created || php  ${DEPLOY_PATH}/artisan storage:link"
+            }
+        }
+
+        stage('Warm up cache'){
+            steps {
+                sh 'php ${DEPLOY_PATH}/artisan config:cache'
+                sh 'php ${DEPLOY_PATH}/artisan route:cache'
             }
         }
     }

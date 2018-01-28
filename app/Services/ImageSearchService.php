@@ -20,10 +20,15 @@ class ImageSearchService
      */
     private $httpClient;
 
-    public function __construct(Client $httpClient, TranslateService $translateService)
+    public function __construct(TranslateService $translateService)
     {
         $this->translateService = $translateService;
-        $this->httpClient = $httpClient;
+        $this->httpClient = new Client([
+            'headers' => [
+                'Accept'     => 'application/json',
+                'Authorization' => 'Client-ID ' . config('unsplash.application_token')
+            ]
+        ]);
     }
 
     public function search($text)
@@ -31,12 +36,8 @@ class ImageSearchService
         $englishText = $this->translateService->translate($text);
         $endpoint = config('unsplash.endpoint') . '/search/photos?orientation=landscape&query=' . $englishText;
 
-        $imagesSortedByLiked = collect(json_decode($this->httpClient->request('GET', $endpoint, [
-            'headers' => [
-                'Accept'     => 'application/json',
-                'Authorization' => 'Client-ID ' . config('unsplash.application_token')
-            ]
-        ])->getBody())->results)
+        $imagesSortedByLiked = collect(json_decode($this->httpClient->request('GET', $endpoint)
+            ->getBody())->results)
             ->sortBy('likes');
 
         return $imagesSortedByLiked->first();

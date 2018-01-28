@@ -51,7 +51,6 @@ class UserGiftController extends ApiController
         $this->authorize('update', $gift);
 
         $oldTitle = $gift->title;
-
         $gift->update($request->except(['reserved_by']));
 
         if ($request->title !== $oldTitle) {

@@ -58,8 +58,8 @@ pipeline {
 
         stage('Build assets'){
             steps {
-                sh 'npm install'
-                sh 'npm run prod'
+                sh 'yarn install'
+                sh 'yarn run prod'
             }
         }
         stage('deploy'){

@@ -19,5 +19,5 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && rm composer.phar
 
 RUN cp .env.example .env
-RUN php artisan storage:link && php artisan jwt:secret && php artisan optimize
+RUN php artisan jwt:secret -f && php artisan storage:link && php artisan optimize
 RUN chown -R www-data:www-data /usr/share/nginx/html/storage && chown -R www-data:www-data /usr/share/nginx/html/bootstrap

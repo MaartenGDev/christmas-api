@@ -5,6 +5,7 @@ namespace App\Services;
 
 use GuzzleHttp\Client;
 use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManagerStatic as ImageManager;
 use Illuminate\Support\Facades\Storage;
 use Monolog\Logger;
 use Ramsey\Uuid\Uuid;
@@ -25,10 +26,17 @@ class ImageSearchService
         $this->translateService = $translateService;
         $this->httpClient = new Client([
             'headers' => [
-                'Accept'     => 'application/json',
+                'Accept' => 'application/json',
                 'Authorization' => 'Client-ID ' . config('unsplash.application_token')
             ]
         ]);
+
+        $this->configureImageProcessing();
+    }
+
+    private function configureImageProcessing()
+    {
+        ImageManager::configure(['driver' => 'imagick']);
     }
 
     public function search($text)
@@ -45,7 +53,7 @@ class ImageSearchService
     public function searchAndPersist($text, $previousFilename = null)
     {
         $imageDetails = $this->search($text);
-        if(is_null($imageDetails)) return null;
+        if (is_null($imageDetails)) return null;
 
         $imageBlob = file_get_contents($imageDetails->links->download);
 
@@ -65,17 +73,19 @@ class ImageSearchService
         return Storage::url($filename);
     }
 
-    private function deleteIfExists($filename){
-        if(is_null($filename)) return;
+    private function deleteIfExists($filename)
+    {
+        if (is_null($filename)) return;
 
         $filenameWithoutStoragePrefix = $this->removeStoragePrefix($filename);
 
         Storage::disk('s3')->delete($filenameWithoutStoragePrefix);
     }
 
-    private function removeStoragePrefix($filename){
+    private function removeStoragePrefix($filename)
+    {
         $storagePrefix = 'storage/';
-        if(substr($filename, 0, strlen($storagePrefix)) !== $storagePrefix) return $filename;
+        if (substr($filename, 0, strlen($storagePrefix)) !== $storagePrefix) return $filename;
 
         return substr($filename, strlen($storagePrefix));
     }

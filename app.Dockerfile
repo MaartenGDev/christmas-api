@@ -1,7 +1,7 @@
 FROM php:7.0.8-fpm-alpine
 
 RUN apk update && export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8 && export LANGUAGE=en_US.UTF-8 \
-    && apk add autoconf automake make gcc g++ libtool pkgconfig libmcrypt-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
+    && apk add autoconf automake make gcc g++ libtool pkgconfig libmcrypt-dev freetype-dev libjpeg-turbo-dev libpng-dev \
     && apk update && apk add imagemagick-dev mysql-client \
     && pecl install imagick \
     && docker-php-ext-install mbstring zip xml mcrypt pdo_mysql \

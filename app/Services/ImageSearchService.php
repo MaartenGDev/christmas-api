@@ -53,7 +53,7 @@ class ImageSearchService
 
         $filename = 'gift-images/' . Uuid::uuid4()->toString() . '.jpg';
 
-        Storage::disk('public')->put($filename, $imageBlob);
+        Storage::disk('s3')->put($filename, $imageBlob);
 
         return 'storage/' . $filename;
     }
@@ -63,7 +63,7 @@ class ImageSearchService
 
         $filenameWithoutStoragePrefix = $this->removeStoragePrefix($filename);
 
-        Storage::disk('public')->delete($filenameWithoutStoragePrefix);
+        Storage::disk('s3')->delete($filenameWithoutStoragePrefix);
     }
 
     private function removeStoragePrefix($filename){

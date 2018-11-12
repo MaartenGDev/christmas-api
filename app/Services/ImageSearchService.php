@@ -55,7 +55,7 @@ class ImageSearchService
 
         Storage::disk('s3')->put($filename, $imageBlob);
 
-        return 'storage/' . $filename;
+        return Storage::url($filename);
     }
 
     private function deleteIfExists($filename){

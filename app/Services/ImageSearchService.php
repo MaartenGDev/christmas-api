@@ -4,7 +4,7 @@ namespace App\Services;
 
 
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Log;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Monolog\Logger;
 use Ramsey\Uuid\Uuid;
@@ -49,11 +49,18 @@ class ImageSearchService
 
         $imageBlob = file_get_contents($imageDetails->links->download);
 
+        $downloadedImage = Image::make($imageBlob);
+        $downloadedImage->resize(1080, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
+        $downloadedImage->stream();
+
         $this->deleteIfExists($previousFilename);
 
         $filename = 'gift-images/' . Uuid::uuid4()->toString() . '.jpg';
 
-        Storage::disk('s3')->put($filename, $imageBlob);
+        Storage::disk('s3')->put($filename, $downloadedImage);
 
         return Storage::url($filename);
     }

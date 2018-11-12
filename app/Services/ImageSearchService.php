@@ -36,7 +36,7 @@ class ImageSearchService
 
     private function configureImageProcessing()
     {
-        ImageManager::configure(['driver' => 'imagick']);
+        ImageManager::configure(['driver' => 'gd']);
     }
 
     public function search($text)

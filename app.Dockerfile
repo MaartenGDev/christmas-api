@@ -4,9 +4,13 @@ RUN apk update && export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8 && export
     && apk add autoconf automake make gcc g++ libtool pkgconfig libmcrypt-dev freetype-dev libjpeg-turbo-dev libpng-dev \
     && apk update && apk add imagemagick-dev mysql-client \
     && docker-php-ext-install mbstring zip xml mcrypt pdo_mysql \
-    && docker-php-ext-install -j$(nproc) iconv \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd
+    && docker-php-ext-configure gd \
+        --with-gd \
+        --with-freetype-dir=/usr/include/ \
+        --with-png-dir=/usr/include/ \
+        --with-jpeg-dir=/usr/include/ && \
+      NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
+      docker-php-ext-install -j${NPROC} gd
 
 COPY . /usr/share/nginx/html
 

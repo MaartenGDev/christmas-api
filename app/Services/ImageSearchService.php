@@ -57,16 +57,16 @@ class ImageSearchService
 
         $imageBlob = file_get_contents($imageDetails->links->download);
 
-        $downloadedImage = Image::make($imageBlob);
-        $downloadedImage->resize(1080, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
+        $downloadedImage = Image::make($imageBlob)
+            ->resize(1080, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->encode('jpg');
 
         $this->deleteIfExists($previousFilename);
 
         $filename = 'gift-images/' . Uuid::uuid4()->toString() . '.jpg';
 
-        Storage::disk('s3')->put($filename, $downloadedImage->stream());
+        Storage::disk('s3')->put($filename, (string) $downloadedImage);
 
         return Storage::url($filename);
     }

@@ -31,13 +31,6 @@ class ImageSearchService
                 'Authorization' => 'Client-ID ' . config('unsplash.application_token')
             ]
         ]);
-
-        $this->configureImageProcessing();
-    }
-
-    private function configureImageProcessing()
-    {
-        ImageManager::configure(['driver' => 'imagick']);
     }
 
     public function search($text)

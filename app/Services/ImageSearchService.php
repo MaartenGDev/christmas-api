@@ -60,7 +60,7 @@ class ImageSearchService
 
         $filename = 'gift-images/' . Uuid::uuid4()->toString() . '.jpg';
 
-        Storage::put($filename, $downloadedImage->stream());
+        Storage::put($filename, $downloadedImage->stream()->detach());
 
         return Storage::url($filename);
     }

@@ -54,13 +54,13 @@ class ImageSearchService
         $downloadedImage = Image::make($imageBlob)
             ->resize(1080, null, function ($constraint) {
                 $constraint->aspectRatio();
-            })->encode('jpg');
+            });
 
         $this->deleteIfExists($previousFilename);
 
         $filename = 'gift-images/' . Uuid::uuid4()->toString() . '.jpg';
 
-        Storage::put($filename, (string) $downloadedImage);
+        Storage::put($filename, $downloadedImage->stream());
 
         return Storage::url($filename);
     }

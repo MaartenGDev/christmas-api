@@ -37,7 +37,7 @@ class ImageSearchService
 
     private function configureImageProcessing()
     {
-        ImageManager::configure(['driver' => 'gd']);
+        ImageManager::configure(['driver' => 'imagick']);
     }
 
     public function search($text)
@@ -67,7 +67,7 @@ class ImageSearchService
 
         $filename = 'gift-images/' . Uuid::uuid4()->toString() . '.jpg';
 
-        Log::debug(Storage::put($filename, (string) $downloadedImage));
+        Storage::put($filename, (string) $downloadedImage);
 
         return Storage::url($filename);
     }

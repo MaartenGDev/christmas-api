@@ -1,16 +1,11 @@
 FROM php:7.0.8-fpm-alpine
 
 RUN apk update && export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8 && export LANGUAGE=en_US.UTF-8 \
-    && apk add autoconf automake make gcc g++ libtool pkgconfig libmcrypt-dev freetype-dev libjpeg-turbo-dev libpng-dev \
+    && apk add autoconf automake make gcc g++ libtool pkgconfig libmcrypt-dev \
     && apk update && apk add imagemagick-dev mysql-client \
-    && docker-php-ext-install mbstring zip xml mcrypt pdo_mysql \
-    && docker-php-ext-configure gd \
-        --with-gd \
-        --with-freetype-dir=/usr/include/ \
-        --with-png-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/ && \
-      NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
-      docker-php-ext-install -j${NPROC} gd
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
+    && docker-php-ext-install mbstring zip xml mcrypt pdo_mysql
 
 COPY . /usr/share/nginx/html
 

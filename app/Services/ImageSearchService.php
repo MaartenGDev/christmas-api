@@ -62,13 +62,11 @@ class ImageSearchService
             $constraint->aspectRatio();
         });
 
-        $downloadedImage->stream();
-
         $this->deleteIfExists($previousFilename);
 
         $filename = 'gift-images/' . Uuid::uuid4()->toString() . '.jpg';
 
-        Storage::disk('s3')->put($filename, $downloadedImage);
+        Storage::disk('s3')->put($filename, $downloadedImage->stream());
 
         return Storage::url($filename);
     }

@@ -4,6 +4,7 @@ namespace App\Services;
 
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\ImageManagerStatic as ImageManager;
 use Illuminate\Support\Facades\Storage;
@@ -66,7 +67,7 @@ class ImageSearchService
 
         $filename = 'gift-images/' . Uuid::uuid4()->toString() . '.jpg';
 
-        Storage::disk('s3')->put($filename, (string) $downloadedImage);
+        Log::debug(Storage::put($filename, (string) $downloadedImage));
 
         return Storage::url($filename);
     }

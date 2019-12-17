@@ -47,6 +47,7 @@ class ImageSearchService
     public function searchAndPersist($text, $previousFilename = null)
     {
         $imageDetails = $this->search($text);
+
         if (is_null($imageDetails)) return null;
 
         $imageBlob = file_get_contents($imageDetails->links->download);

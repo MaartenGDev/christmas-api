@@ -3,7 +3,7 @@
 namespace App\Services;
 
 
-use Stichoza\GoogleTranslate\TranslateClient;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class TranslateService
 {
@@ -11,7 +11,7 @@ class TranslateService
 
     public function __construct()
     {
-        $this->client = new TranslateClient();
+        $this->client = new GoogleTranslate();
     }
 
     public function translate($text, $language = 'en')

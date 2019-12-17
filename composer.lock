@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "56284408ee2d8516ee4b5f1f6fc3be83",
+    "content-hash": "9d77dde81fa70dd164406837889f70b4",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2248,35 +2248,32 @@
         },
         {
             "name": "stichoza/google-translate-php",
-            "version": "v3.2.13",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Stichoza/google-translate-php.git",
-                "reference": "60adf747a337912d15cb85e492ac804e8e0c294f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Stichoza/google-translate-php/zipball/60adf747a337912d15cb85e492ac804e8e0c294f",
-                "reference": "60adf747a337912d15cb85e492ac804e8e0c294f",
-                "shasum": ""
+                "reference": "3932ee830fb85cd7dbe8cb906b12ced458067caf"
             },
             "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
                 "guzzlehttp/guzzle": "~6.0",
-                "php": ">=5.5.0"
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "^7.0"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Stichoza\\GoogleTranslate\\": "src/"
-                },
                 "psr-4": {
-                    "Stichoza\\GoogleTranslate\\": "src/Stichoza/GoogleTranslate/"
+                    "Stichoza\\GoogleTranslate\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Stichoza\\GoogleTranslate\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -2291,9 +2288,10 @@
             "keywords": [
                 "google",
                 "php",
-                "translate"
+                "translate",
+                "translator"
             ],
-            "time": "2017-05-05T11:45:11+00:00"
+            "time": "2019-10-29T13:55:23+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4476,6 +4474,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2018-01-06T05:45:45+00:00"
         },
         {
@@ -5174,6 +5173,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "stichoza/google-translate-php": 20,
         "tymon/jwt-auth": 20
     },
     "prefer-stable": false,

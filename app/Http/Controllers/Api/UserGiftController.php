@@ -43,6 +43,8 @@ class UserGiftController extends ApiController
 
         AddImageToGift::dispatch($gift);
 
+        $gift->refresh();
+
         return $this->respondOk(new GiftResource($gift));
     }
 

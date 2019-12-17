@@ -4,6 +4,13 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/Stichoza/google-translate-php.git"
+        }
+    ],
+
     "require": {
         "php": ">=7.0.0",
         "barryvdh/laravel-cors": "^0.11.0",
@@ -17,7 +24,7 @@
         "pda/pheanstalk": "^3.1",
         "ramsey/uuid": "^3.7",
         "sentry/sentry-laravel": "^0.8.0",
-        "stichoza/google-translate-php": "^3.2",
+        "stichoza/google-translate-php": "dev-master",
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {

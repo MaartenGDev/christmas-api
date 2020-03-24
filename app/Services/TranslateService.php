@@ -16,6 +16,7 @@ class TranslateService
 
     public function translate($text, $language = 'en')
     {
+        $this->client->setSource("nl");
         $this->client->setTarget($language);
 
         return $this->client->translate($text);

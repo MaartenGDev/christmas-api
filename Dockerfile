@@ -21,19 +21,25 @@ RUN BUILD_DEPENDENCIES="autoconf" \
             libpng-dev \
     	    git \
     	    zip \
+	        gnupg \
+	        apt-transport-https \
     	    libmagickwand-dev \
+	    unixodbc-dev \
     	    unzip" \
     && docker-php-source extract \
     && apt-get update && apt-get install -y \
         $BUILD_DEPENDENCIES \
         $DEV_DEPENDENCIES \
+    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update && ACCEPT_EULA=Y apt-get install msodbcsql17 -y \
     && docker-php-ext-install mbstring pdo_mysql curl gd zip opcache\
     && docker-php-ext-configure gd \
         --with-gd \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
-    && pecl install xdebug-2.7.0beta1 imagick \
-    && docker-php-ext-enable xdebug imagick \
+    && pecl install xdebug-2.7.0beta1 imagick sqlsrv pdo_sqlsrv \
+    && docker-php-ext-enable xdebug imagick sqlsrv pdo_sqlsrv \
     && php -v \
     && a2enmod rewrite
 

@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Gift;
-use App\Http\Controllers\ApiController;
 use App\Http\Requests\StoreGiftRequest;
 use App\Http\Resources\GiftResource;
 use App\Jobs\AddImageToGift;
 use App\Services\ImageSearchService;
-use App\Services\TranslateService;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class UserGiftController extends ApiController
 {

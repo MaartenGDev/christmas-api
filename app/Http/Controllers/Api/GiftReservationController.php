@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Gift;
-use App\Http\Controllers\ApiController;
 use App\Http\Requests\StoreGiftReservationRequest;
 use App\Http\Resources\GiftResource;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Gift;
 
 class GiftReservationController extends ApiController
 {

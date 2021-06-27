@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\StoreGiftRequest;
 use App\Http\Resources\GiftResource;
 use App\Jobs\AddImageToGift;
+use App\Models\Gift;
 use App\Services\ImageSearchService;
 use Illuminate\Http\Request;
 

@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
-use App\Gift;
+use App\Models\Gift;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class GiftPolicy
@@ -15,7 +15,7 @@ class GiftPolicy
         return $user->id === $gift->user_id;
     }
 
-    public function updateReservation(User $user, Gift $gift)
+    public function updateReservation(User $user, Gift $gift): bool
     {
         // The owner of a gift can't reserve his own gift
         if ($gift->user_id === $user->id) return false;

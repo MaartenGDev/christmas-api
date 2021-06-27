@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Gift;
+use App\Models\Gift;
 use App\Services\ImageSearchService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
